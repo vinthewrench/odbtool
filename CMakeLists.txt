@@ -10,7 +10,7 @@ set(SOURCES
 	src/main.cpp
 	src/CANbus.cpp
 	src/ODBIIsocket.cpp
-	src/OBDII.c
+	src/OBDII.cpp
 )
 
 add_executable(obdtool ${SOURCES})
