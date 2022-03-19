@@ -1,36 +1,28 @@
 //
-//  CanClient.cpp
+//  CANbus.cpp
 //  canrecord
 //
 //  Created by Vincent Moscaritolo on 3/18/22.
 //
 
-#include "CanClient.hpp"
+#include "CANbus.hpp"
 
 
-CANClient::CANClient(){
+CANbus::CANbus(){
 	_fd = -1;
 	_isSetup = false;
-	_cb = NULL;
 	_running = false;
 }
 
-CANClient::~CANClient(){
+CANbus::~CANbus(){
 	
 	_fd = -1;
 	_isSetup = false;
-	_cb = NULL;
 
 }
 
-bool CANClient::begin(string port, CANClientProcessor* cb,  int * errorOut){
- 
-#if defined(__APPLE__)
-	if(errorOut) *errorOut = ENOTSUP;
-	return false;
-#else
-	
-	struct ifreq ifr;
+bool CANbus::begin(const char *ifname,  int * errorOut){
+ 	
 	struct sockaddr_can addr;
 	
 	// create a socket
@@ -41,35 +33,34 @@ bool CANClient::begin(string port, CANClientProcessor* cb,  int * errorOut){
 	}
 	
 	// Get the index number of the network interface
-	strcpy(ifr.ifr_name,  port.c_str() );
-	if(::ioctl(_fd, SIOCGIFINDEX, &ifr) == -1){
+	
+	unsigned int ifindex = if_nametoindex(ifname);
+
+	if (ifindex == 0) {
 		if(errorOut) *errorOut = errno;
 		return false;
 	}
-	
+
 	// fill out Interface request structure
 	memset(&addr, 0, sizeof(addr));
 	addr.can_family = AF_CAN;
-	addr.can_ifindex = ifr.ifr_ifindex;
-	
+	addr.can_ifindex = ifindex;
+
 	if (::bind(_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
 		if(errorOut) *errorOut = errno;
 		return false;
 	}
 	
-	_cb = cb;
 	_isSetup = true;
 	_running = true;
 
-	_thread = std::thread(&CANClient::run, this);
+	_thread = std::thread(&CANbus::run, this);
 
 	return true;
-#endif
-
 };
 
 
-bool CANClient::setFilter(canid_t can_id, canid_t can_mask,int * errorOut) {
+bool CANbus::setFilter(canid_t can_id, canid_t can_mask,int * errorOut) {
 	
 	if(!_isSetup) return false;
 
@@ -86,7 +77,7 @@ bool CANClient::setFilter(canid_t can_id, canid_t can_mask,int * errorOut) {
 	return true;
 }
 
-bool CANClient::sendFrame(canid_t frameID,  uint8_t* data, size_t dataLen) {
+bool CANbus::sendFrame(canid_t frameID,  uint8_t* data, size_t dataLen) {
 	if(!_isSetup) return false;
 
 	if(dataLen > 8) return false;
@@ -106,7 +97,7 @@ bool CANClient::sendFrame(canid_t frameID,  uint8_t* data, size_t dataLen) {
 	return true;
 }
 
-void CANClient::stop(){
+void CANbus::stop(){
 	
 	_running = false;
 	 
@@ -120,7 +111,7 @@ void CANClient::stop(){
 	_isSetup = false;
 }
 
-void CANClient::run() {
+void CANbus::run() {
 
 	while(_running){
 
@@ -142,11 +133,10 @@ void CANClient::run() {
 
 			size_t nbytes = read(_fd, &frame, sizeof(struct can_frame));
 
-			if(nbytes > 0){
-				if(_cb){
-					_cb->rcvFrame(frame);
-				}
+			if(nbytes >= sizeof(struct can_frame)){
+				rcvFrame(frame);
 			}
+		 
 			if(nbytes == 0){ // shutdown
 				_running = false;
 			}

@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2E91D08427DD3B8300B0E083 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E91D08327DD3B8300B0E083 /* main.cpp */; };
-		2EFC23EE27E4D7A400DB9D1F /* CanClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC23EC27E4D7A400DB9D1F /* CanClient.cpp */; };
+		2EFC23EE27E4D7A400DB9D1F /* CANbus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC23EC27E4D7A400DB9D1F /* CANbus.cpp */; };
+		2EFC240127E689A200DB9D1F /* OBDII.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC23FF27E689A200DB9D1F /* OBDII.c */; };
+		2EFC240427E68A3200DB9D1F /* ODBIIsocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC240227E68A3200DB9D1F /* ODBIIsocket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,10 +29,13 @@
 		2E91D07827DD3AE200B0E083 /* odbtool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = odbtool; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E91D08327DD3B8300B0E083 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2E91D08727DD3B9C00B0E083 /* can.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = can.h; sourceTree = "<group>"; };
-		2EFC23EC27E4D7A400DB9D1F /* CanClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CanClient.cpp; sourceTree = "<group>"; };
-		2EFC23ED27E4D7A400DB9D1F /* CanClient.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CanClient.hpp; sourceTree = "<group>"; };
+		2EFC23EC27E4D7A400DB9D1F /* CANbus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CANbus.cpp; sourceTree = "<group>"; };
+		2EFC23ED27E4D7A400DB9D1F /* CANbus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CANbus.hpp; sourceTree = "<group>"; };
 		2EFC23F827E4F5AA00DB9D1F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		2EFC23FD27E673F400DB9D1F /* Utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
+		2EFC23FF27E689A200DB9D1F /* OBDII.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OBDII.c; sourceTree = "<group>"; };
+		2EFC240027E689A200DB9D1F /* OBDII.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBDII.h; sourceTree = "<group>"; };
+		2EFC240227E68A3200DB9D1F /* ODBIIsocket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ODBIIsocket.cpp; sourceTree = "<group>"; };
+		2EFC240327E68A3200DB9D1F /* ODBIIsocket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ODBIIsocket.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,9 +71,12 @@
 			isa = PBXGroup;
 			children = (
 				2E91D08327DD3B8300B0E083 /* main.cpp */,
-				2EFC23ED27E4D7A400DB9D1F /* CanClient.hpp */,
-				2EFC23EC27E4D7A400DB9D1F /* CanClient.cpp */,
-				2EFC23FD27E673F400DB9D1F /* Utils.hpp */,
+				2EFC23ED27E4D7A400DB9D1F /* CANbus.hpp */,
+				2EFC23EC27E4D7A400DB9D1F /* CANbus.cpp */,
+				2EFC240227E68A3200DB9D1F /* ODBIIsocket.cpp */,
+				2EFC240327E68A3200DB9D1F /* ODBIIsocket.hpp */,
+				2EFC23FF27E689A200DB9D1F /* OBDII.c */,
+				2EFC240027E689A200DB9D1F /* OBDII.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -145,8 +153,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EFC240427E68A3200DB9D1F /* ODBIIsocket.cpp in Sources */,
+				2EFC240127E689A200DB9D1F /* OBDII.c in Sources */,
 				2E91D08427DD3B8300B0E083 /* main.cpp in Sources */,
-				2EFC23EE27E4D7A400DB9D1F /* CanClient.cpp in Sources */,
+				2EFC23EE27E4D7A400DB9D1F /* CANbus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,12 +1,12 @@
 //
-//  CanClient.hpp
+//  CANbus.hpp
 //  canrecord
 //
 //  Created by Vincent Moscaritolo on 3/18/22.
 //
 
-#ifndef CanClient_hpp
-#define CanClient_hpp
+#ifndef CANbus_hpp
+#define CANbus_hpp
 
 
 #if defined(__APPLE__)
@@ -58,28 +58,21 @@ inline  std::string hexDump(struct can_frame frame) {
 }
 
 
-class  CANClientProcessor {
- 
-public:
-	virtual ~CANClientProcessor() {};
-	virtual void rcvFrame(struct can_frame ) = 0;
-};
-
-class CANClient {
+class CANbus {
 
 public:
  
-	CANClient();
-	~CANClient();
+	CANbus();
+	~CANbus();
 	
-	bool begin(string port, CANClientProcessor* cb,  int *error = NULL);
+	bool begin(const char *ifname, int *error = NULL);
 	bool setFilter(canid_t can_id, canid_t can_mask, int *error = NULL);
-	
 	bool sendFrame(canid_t frameID,  uint8_t* data, size_t dataLen);
- 
 	void stop();
 	
-private:
+	virtual void rcvFrame(struct can_frame ) = 0;
+
+protected:
 	
 	void run();
 
@@ -87,12 +80,10 @@ private:
 	std::thread 			_thread;		 //Internal thread, this is in order to start and stop the thread from
 	
 	
-	CANClientProcessor*  _cb;
-	int						_fd;
+ 	int						_fd;
 	fd_set 					_read_fds;
-
 	bool						_isSetup;
 
 };
 
-#endif /* CanClient_hpp */
+#endif /* CANbus_hpp */

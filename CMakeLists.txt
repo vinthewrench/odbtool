@@ -4,23 +4,24 @@ SET (CMAKE_CXX_COMPILER            "clang++")
 
 cmake_minimum_required(VERSION 3.0)
 
-project(odbtool)
+project(obdtool)
 
 set(SOURCES
 	src/main.cpp
-	src/CanClient.cpp
+	src/CANbus.cpp
+	src/OBDII.cpp
 )
 
-add_executable(odbtool ${SOURCES})
+add_executable(obdtool ${SOURCES})
 
 
-set_target_properties(odbtool PROPERTIES
+set_target_properties(obdtool PROPERTIES
 				CXX_STANDARD 17
 				CXX_EXTENSIONS OFF
 				)
  
-set_target_properties(odbtool PROPERTIES
-			OUTPUT_NAME "odbtool"
+set_target_properties(obdtool PROPERTIES
+			OUTPUT_NAME "obdtool"
 			)
 
 			  
@@ -29,9 +30,9 @@ find_package(Threads REQUIRED)
 
 include_directories(/usr/include)
 link_directories(/usr/lib)
-target_link_libraries(odbtool  PRIVATE Threads::Threads)
+target_link_libraries(obdtool  PRIVATE Threads::Threads)
 
-target_include_directories(odbtool
+target_include_directories(obdtool
 	PRIVATE
 	src
 )
