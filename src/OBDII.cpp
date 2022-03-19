@@ -2,6 +2,8 @@
 #include <string.h>
 #include "OBDII.h"
 
+extern "C" {
+
 int OBDIICommandSetContainsCommand(OBDIICommandSet *commandSet, OBDIICommand *command)
 {
 	if (!commandSet || !command) {
@@ -112,7 +114,7 @@ void OBDIIDecodeDTCs(OBDIIResponse *response, unsigned char *responsePayload, in
 	}
 
 	int numDTCs = numBytes / bytesPerDTC;
-	response->DTCs.troubleCodes = malloc(numDTCs * sizeof(*response->DTCs.troubleCodes));
+	response->DTCs.troubleCodes = (char (*)[6])malloc(numDTCs * sizeof(*response->DTCs.troubleCodes));
 	response->DTCs.numTroubleCodes = numDTCs;
 
 	int i;
@@ -147,7 +149,7 @@ void OBDIIDecodeVIN(OBDIIResponse *response, unsigned char *responsePayload, int
 {
 	len -= 2;
 
-	response->stringValue = malloc(len + 1);
+	response->stringValue = (char*) malloc(len + 1);
 
 	if (response->stringValue) {
 		strncpy(response->stringValue, (const char *) responsePayload + 2, len);
@@ -456,4 +458,5 @@ struct OBDIICommands OBDIICommands = {
 	&OBDIIMode9Commands[0],
 	&OBDIIMode9Commands[1],
 	&OBDIIMode9Commands[2]
+};
 };

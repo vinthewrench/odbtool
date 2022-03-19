@@ -19,7 +19,7 @@ class GMLAN : public CANbus {
 
 void GMLAN::rcvFrame(struct can_frame frame ){
 
-	printf("%s\n",hexDump(frame).c_str());
+	printf("%s\n",hexDumpFrame(frame).c_str());
 
 }
 
@@ -34,19 +34,19 @@ int main(int argc, const char * argv[]) {
 	
 	//gmlan.begin("can1");
 
-	odb.begin("can1");
+	odb.begin("can1", 0x7df, 0x7e8);
 	
 	// Mode 1
-	OBDIIResponse response = odb.performQuery(OBDIICommands.mode1SupportedPIDs_1_to_20);
-	 
+//	OBDIIResponse response = odb.performQuery(OBDIICommands.mode1SupportedPIDs_1_to_20);
+	OBDIICommandSet supportedCommands = odb.getSupportedCommands();
+
 	
-//	uint8_t odb1[8] = { 01, 11, 00, 00, 00, 00, 00, 00  };
-//
-//	can1.sendFrame(0x7DF, odb1, 8);
-	
-	while(true) {
-		sleep(2);
+	for (int i = 0; i < supportedCommands.numCommands; ++i) {
+		OBDIICommand *command = supportedCommands.commands[i];
+		printf("%i: mode %02x, PID %02x: %s\n", i, OBDIICommandGetMode(command), OBDIICommandGetPID(command), command->name);
 	}
+
+	odb.stop();
  
 	return 0;
 }

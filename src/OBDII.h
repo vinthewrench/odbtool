@@ -6,6 +6,8 @@
 
 #define VARIABLE_RESPONSE_LENGTH 0
 
+extern "C" {
+
 struct OBDIICommand; // Forward declaration
 
 /**
@@ -266,4 +268,5 @@ int OBDIICommandSetContainsCommand(OBDIICommandSet *commandSet, OBDIICommand *co
  */
 void OBDIICommandSetFree(OBDIICommandSet *commandSet);
 
+};
 #endif /* OBDII.h */

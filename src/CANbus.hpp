@@ -34,7 +34,7 @@
 using namespace std;
  
 
-inline  std::string hexDump(struct can_frame frame) {
+inline  std::string hexDumpFrame(struct can_frame frame) {
 	
 	char      	 lineBuf[80];
 	char       	 *p = lineBuf;

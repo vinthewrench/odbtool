@@ -9,7 +9,8 @@ project(obdtool)
 set(SOURCES
 	src/main.cpp
 	src/CANbus.cpp
-	src/OBDII.cpp
+	src/ODBIIsocket.cpp
+	src/OBDII.c
 )
 
 add_executable(obdtool ${SOURCES})

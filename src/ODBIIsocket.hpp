@@ -14,16 +14,24 @@
 using namespace std;
 
 
-class ODBIIsocket : public CANbus {
+
+class ODBIIsocket  {
 	
 public:
-	bool begin(const char *ifname,  int * errorOut = NULL);
-
+	ODBIIsocket();
+	~ODBIIsocket();
+	
+	bool begin(const char *ifname, canid_t tx_id, canid_t rx_id, int *error = NULL);
+	void stop();
+	
 	OBDIIResponse performQuery(OBDIICommand *command);
 	
-private:
-	void rcvFrame(struct can_frame );
+	OBDIICommandSet getSupportedCommands();
 	
+private:
+
+	int						_fd;
+	bool						_isSetup;
 	
 };
 
